@@ -1,6 +1,6 @@
-package fr.coursesu.group1
+package fr.hetic.h3p2021
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {

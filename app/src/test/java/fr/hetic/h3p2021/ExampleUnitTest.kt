@@ -1,4 +1,4 @@
-package fr.coursesu.group1
+package fr.hetic.h3p2021
 
 import org.junit.Test
 
