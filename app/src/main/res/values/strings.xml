@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">H3P2021</string>
+    <string name="validate">Valider</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
 </resources>
