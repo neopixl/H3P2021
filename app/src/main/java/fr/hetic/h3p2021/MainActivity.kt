@@ -1,11 +1,16 @@
 package fr.hetic.h3p2021
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GestureDetectorCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), TextWatcher {
@@ -27,11 +32,6 @@ class MainActivity : AppCompatActivity(), TextWatcher {
                 onValidate()
             }
         }
-
-        1.apply {  }
-        1.run {  }
-        1.let {  }
-        1.also {  }
 
 
 
@@ -56,7 +56,24 @@ class MainActivity : AppCompatActivity(), TextWatcher {
         if (!validate_button.isEnabled) {
             return
         }
-        Toast.makeText(this, "CLICK!", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, SecondActivity::class.java).apply {
+            putExtra("email", email_edittext.text.toString())
+            putExtra("password", password_edittext.text.toString())
+            putExtra("int", 0)
+            putExtra("boolean", false)
+        }
+        startActivityForResult(intent, 8)
+
+
+        /*
+        val intentUrl = Intent(Intent.ACTION_SEND)
+        intentUrl.type = "text/plain"
+        intentUrl.putExtra(Intent.EXTRA_TEXT, "http://google.com")
+        startActivity(Intent.createChooser(intentUrl, "Share URL"))
+
+        startActivity(intentUrl)
+        */
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -70,5 +87,30 @@ class MainActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 8) {
+            val boolean = data?.extras?.getBoolean("boolean") ?: false
+            val text = if (boolean) "true" else "false"
+
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder
+                .setTitle("Retour")
+                .setMessage(text)
+                .setCancelable(false)
+                .setPositiveButton("OK", object : DialogInterface.OnClickListener {
+
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        dialog?.dismiss()
+                    }
+
+                })
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
