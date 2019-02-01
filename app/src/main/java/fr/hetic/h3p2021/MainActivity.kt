@@ -50,6 +50,9 @@ class MainActivity : AppCompatActivity(), TextWatcher {
             true
         }
 
+        email_edittext.setText("florian@neopixl.com")
+        password_edittext.setText("aabbccddee")
+
     }
 
     fun onValidate() {
