@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity(), TextWatcher {
             }
         }
 
+        emailEditText.setText("florian@neopixl.com")
+        passwordEditText.setText("aabbccddee")
+
     }
 
     override fun afterTextChanged(s: Editable?) {
