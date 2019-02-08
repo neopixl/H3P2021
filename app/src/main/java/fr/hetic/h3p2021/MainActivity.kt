@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity(), TextWatcher {
             }
         }
 
+        pokemonButton.setOnClickListener {
+            goToPokemon()
+        }
+
 
 
         emailEditText.addTextChangedListener(this)
@@ -73,6 +77,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
         intent.putExtra("prix", 20)
         intent.putExtra("promotion", true)
         startActivityForResult(intent, 3)
+    }
+
+    fun goToPokemon() {
+        val intent = Intent(this, PokemonActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
