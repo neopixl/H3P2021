@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
         }
 
 
+        pokemonButton.setOnClickListener {
+            val intent = Intent(MainActivity@this, PokemonActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
 
