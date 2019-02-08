@@ -5,15 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GestureDetectorCompat
+import fr.hetic.h3p2021.recyclerview.PokemonActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), TextWatcher {
@@ -33,6 +28,10 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 
         pokemonButton.setOnClickListener {
             goToPokemon()
+        }
+
+        rickMortyButton.setOnClickListener {
+            goToRickMorty()
         }
 
 
@@ -81,6 +80,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 
     fun goToPokemon() {
         val intent = Intent(this, PokemonActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToRickMorty() {
+        val intent = Intent(this, RickMortyActivty::class.java)
         startActivity(intent)
     }
 

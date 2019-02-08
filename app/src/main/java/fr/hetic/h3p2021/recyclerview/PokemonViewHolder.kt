@@ -1,15 +1,13 @@
-package fr.hetic.h3p2021
+package fr.hetic.h3p2021.recyclerview
 
 import android.graphics.drawable.Drawable
-import android.media.Image
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.ViewTarget
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.IItem
+import fr.hetic.h3p2021.R
 
 
 class PokemonViewHolder(itemView: View) : FastAdapter.ViewHolder<PokemonItem>(itemView) {
