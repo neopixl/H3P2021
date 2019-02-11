@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="red">#FF0000</color>
+
+    <color name="geraldine">#FF8079</color>
+    <color name="mine_shaft">#272727</color>
+
 </resources>

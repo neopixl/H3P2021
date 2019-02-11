@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GestureDetectorCompat
+import fr.hetic.h3p2021.rickmorty.RickMortyActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), TextWatcher {
@@ -36,6 +37,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
 
         pokemonButton.setOnClickListener {
             val intent = Intent(MainActivity@this, PokemonActivity::class.java)
+            startActivity(intent)
+        }
+
+        rickMortyButton.setOnClickListener {
+            val intent = Intent(MainActivity@this, RickMortyActivity::class.java)
             startActivity(intent)
         }
 
