@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity(), TextWatcher {
             goToRickMorty()
         }
 
+        geolocButton.setOnClickListener {
+            goToGeolocPage()
+        }
+
 
 
         emailEditText.addTextChangedListener(this)
@@ -51,6 +55,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
         emailEditText.setText("florian@neopixl.com")
         passwordEditText.setText("aabbccddee")
 
+    }
+
+    private fun goToGeolocPage() {
+        val intent = Intent(this, GeolocActivity::class.java)
+        startActivity(intent)
     }
 
     override fun afterTextChanged(s: Editable?) {
