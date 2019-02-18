@@ -1,5 +1,5 @@
 
-package fr.hetic.h3p2021.model;
+package fr.hetic.h3p2021.modelApi;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
