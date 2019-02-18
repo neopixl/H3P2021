@@ -1,5 +1,5 @@
 
-package fr.hetic.h3p2021.rickmorty.model;
+package fr.hetic.h3p2021.rickmorty.modelApi;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -3,18 +3,24 @@ package fr.hetic.h3p2021.rickmorty
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import fr.hetic.h3p2021.R
-import fr.hetic.h3p2021.rickmorty.model.Result
-import fr.hetic.h3p2021.rickmorty.model.RickMortyWrapper
+import fr.hetic.h3p2021.rickmorty.modelApi.Result
 import kotlinx.android.synthetic.main.activity_rick_morty.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import io.realm.RealmResults
+import fr.hetic.h3p2021.rickmorty.modelDb.RickMortyPerson
+import io.realm.Case
+import io.realm.Realm
+
+
+
 
 class RickMortyActivity : AppCompatActivity() {
 
@@ -22,13 +28,18 @@ class RickMortyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rick_morty)
 
+        Realm.init(this)
+
+
         val client = RickMortyClient()
-        val request = client.api.getCharacter(48)
+        val idToDisplay = 50
+        val request = client.api.getCharacter(idToDisplay)
 
         request.enqueue(object : Callback<Result> {
 
             override fun onFailure(call: Call<Result>, t: Throwable) {
                 Toast.makeText(this@RickMortyActivity, "ERROR", Toast.LENGTH_SHORT).show()
+                displayDataFromId(idToDisplay)
             }
 
             override fun onResponse(call: Call<Result>, response: Response<Result>) {
@@ -37,33 +48,70 @@ class RickMortyActivity : AppCompatActivity() {
                     return
                 }
 
-
-                displayData(response.body()!!)
+                saveInDatabase(response.body()!!)
             }
 
         })
     }
 
-    fun displayData(character: Result) {
+    fun displayDataFromId(characterId: Int) {
 
-        nameTextView.text = character.name
-        genderTextView.text = character.gender
+        val realm = Realm.getDefaultInstance()
+        val rickMortyPerson = realm
+            .where(RickMortyPerson::class.java)
+            .equalTo("id", characterId)
+            .findFirst() ?: return
+
+        nameTextView.text = rickMortyPerson.name
+        genderTextView.text = rickMortyPerson.gender
 
         Glide.with(this)
-            .load(character.image)
+            .load(rickMortyPerson.imageUrl)
             .into(imageView)
-
-        //2017-11-04T18:50:21.651Z
-        val simpleDateFormater = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        simpleDateFormater.timeZone = TimeZone.getTimeZone("GMT")
-
-        val date = simpleDateFormater.parse(character.created)
 
 
         val toDisplayDateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT)
 
-        dateTextView.text = toDisplayDateFormat.format(date)
+        dateTextView.text = toDisplayDateFormat.format(rickMortyPerson.creationDate)
 
 
+    }
+
+    fun saveInDatabase(character: Result) {
+        //2017-12-01T12:02:21.611Z
+        val simpleDateFormater = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        simpleDateFormater.timeZone = TimeZone.getTimeZone("UTC")
+
+        val date = simpleDateFormater.parse(character.created)
+
+
+        val rickMortyPerson = RickMortyPerson().apply {
+            id = character.id
+            name = character.name
+            imageUrl = character.image
+            gender = character.gender
+            creationDate = date
+        }
+
+        val realm = Realm.getDefaultInstance()
+
+        realm.executeTransaction {
+            it.copyToRealmOrUpdate(rickMortyPerson)
+        }
+
+
+        val rickMortyPersonList = realm.where(RickMortyPerson::class.java)
+            .like("name", "*Rick*", Case.INSENSITIVE)
+            .findAll()
+
+        for (rickMorty in rickMortyPersonList) {
+
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder
+                .setTitle("Rick trouve : ${rickMorty.name}")
+                .show()
+        }
+
+        displayDataFromId(character.id)
     }
 }
