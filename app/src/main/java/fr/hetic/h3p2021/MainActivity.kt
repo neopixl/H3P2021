@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity(), TextWatcher {
             startActivity(intent)
         }
 
+        geolocButton.setOnClickListener {
+            val intent = Intent(MainActivity@this, GeolocActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
 
